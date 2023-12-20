@@ -1,15 +1,12 @@
 import { fetchWithRetries } from "./fetch.js";
 
 const getTitle = (html: string) => {
-  const tagStart = html.indexOf("<title>");
-  const tagEnd = html.indexOf("</title>");
-  return html
-    .slice(tagStart + "<title>".length, tagEnd)
-    .trim()
-    .split("-")
-    .filter((item) => !item.includes("拷貝漫畫"))
-    .map((item) => item.trim())
-    .join(" - ");
+  const tagStart = html.indexOf('<h4 class="header">');
+  const tagEnd = html.indexOf("</h4>");
+  const titleText = html
+    .slice(tagStart + '<h4 class="header">'.length, tagEnd)
+    .trim();
+  return titleText.replace("/", " - ");
 };
 
 export const getContent = async (url: string, referer: string) => {
